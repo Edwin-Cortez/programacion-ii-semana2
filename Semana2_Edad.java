@@ -12,10 +12,10 @@ public class Semana2_Edad {
 
         //solicitamos el año de nacimiento
         System.out.print("Ingrese su año de nacimiento:");
-        int añoNacimiento = scanner.nextInt();   // utilizamos variable tipo int
+        int añodeNacimiento = scanner.nextInt();   // utilizamos variable tipo int
 
         //calculamos la edad aproximda usando el año 2,025
-        int edad = 2025 - añoNacimiento;
+        int edad = 2025 - añodeNacimiento;
 
         //mostramos el resultado en la consola
         System.out.print("Hola " + nombre + ", tu edad aproximada es:" + edad + " años.");
