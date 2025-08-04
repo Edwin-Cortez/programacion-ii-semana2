@@ -1,1 +1,64 @@
+import java.util.Scanner;
+public class notasalumnos {
+
+    // Funcion para calcular el promedio
+    public static double calcularPromedio(double[] notas) {
+        double suma = 0;
+        for (double nota : notas) {
+            suma += nota;
+        }
+        return suma / notas.length;
+    }
+
+    // una función booleana para determinar si aprueba
+    public static boolean estaAprobado(double promedio) {
+        return promedio >= 61;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("¿Cuántos estudiantes desea ingresar? (Máximo 5): ");
+        int cantidadEstudiantes = scanner.nextInt();
+        scanner.nextLine(); // esto para limpiar el buffer
+
+        // esto para validar el maximo de estudiantes ingresados
+        if (cantidadEstudiantes < 1 || cantidadEstudiantes > 5) {
+            System.out.println("Cantidad no válida. Debe ser entre 1 y 5.");
+            return;
+        }
+
+        // para la declaración de arreglos
+        String[] nombres = new String[cantidadEstudiantes];
+        double[] promedios = new double[cantidadEstudiantes];
+        String[] estados = new String[cantidadEstudiantes];
+
+        // para la entrada de datos
+        for (int i = 0; i < cantidadEstudiantes; i++) {
+            System.out.println("\nEstudiante #" + (i + 1));
+            System.out.print("Nombre: ");
+            nombres[i] = scanner.nextLine();
+
+            double[] notas = new double[3];
+            for (int j = 0; j < 3; j++) {
+                System.out.print("Ingrese la nota " + (j + 1) + ": ");
+                notas[j] = scanner.nextDouble();
+            }
+            scanner.nextLine(); // limpiar buffer
+
+            double promedio = calcularPromedio(notas);
+            promedios[i] = promedio;
+            estados[i] = estaAprobado(promedio) ? "Aprobado" : "Reprobado";
+        }
+
+        // esto para que muestre el resumen
+        System.out.println("\nResumen de estudiantes:");
+        System.out.println("-------------------------");
+        for (int i = 0; i < cantidadEstudiantes; i++) {
+            System.out.println("Nombre: " + nombres[i] + "  Promedio: " + String.format("%.2f", promedios[i]) + "  Estado: " + estados[i]);
+        }
+        //cerrar el escaner para liberrar recursos
+        scanner.close();
+    }
+}
 
