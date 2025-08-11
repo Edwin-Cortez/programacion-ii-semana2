@@ -1,0 +1,50 @@
+import java.util.Arrays;
+
+public class SistemaEvaluacionAcademica {
+
+    // Función para calcular el promedio de las notas
+    public static double calcularPromedio(double[] notas) {
+        double suma = 0;
+        for (double nota : notas) {
+            suma += nota;
+        }
+        return suma / notas.length;
+    }
+
+    // Función para obtener la calificación literal
+    public static char obtenerLiteral(double promedio) {
+        if (promedio >= 90) return 'A';
+        else if (promedio >= 80) return 'B';
+        else if (promedio >= 70) return 'C';
+        else if (promedio >= 60) return 'D';
+        else return 'F';
+    }
+
+    // Función para determinar si el estudiante está aprobado
+    public static boolean estaAprobado(char literal) {
+        return literal == 'A' || literal == 'B' || literal == 'C';
+    }
+
+    // Procedimiento para mostrar el resultado del estudiante
+    public static void mostrarResultado(String nombre, double[] notas) {
+        double promedio = calcularPromedio(notas);
+        char literal = obtenerLiteral(promedio);
+        boolean aprobado = estaAprobado(literal);
+        
+        System.out.println("Estudiante: " + nombre);
+        System.out.println("Notas: " + Arrays.toString(notas));
+        System.out.printf("Promedio: %.2f\n", promedio);
+        System.out.println("Literal: " + literal);
+        System.out.println("Resultado: " + (aprobado ? "Aprobado ✅" : "Reprobado ❌"));
+    }
+
+    // Método principal
+    public static void main(String[] args) {
+        String[] nombres = {"Ana Castillo", "Juan Pérez"};
+        double[][] notas = {{95.5, 87.0, 90.0}, {75.0, 80.0, 65.0}};
+        
+        for (int i = 0; i < nombres.length; i++) {
+            mostrarResultado(nombres[i], notas[i]);
+        }
+    }
+}
