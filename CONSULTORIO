@@ -1,0 +1,190 @@
+import java.time.LocalDateTime;
+
+public class Veterinaria {
+
+    // -------------------- Clases --------------------
+
+    static class Dueno {
+        private long id;
+        private String nombreCompleto;
+        private String telefono;
+        private String email;
+        private String direccion;
+
+        public Dueno(long id, String nombreCompleto, String telefono, String email, String direccion) {
+            this.id = id;
+            this.nombreCompleto = nombreCompleto;
+            this.telefono = telefono;
+            this.email = email;
+            this.direccion = direccion;
+        }
+
+        public Dueno(long id, String nombreCompleto, String telefono) {
+            this(id, nombreCompleto, telefono, null, "sin dirección");
+        }
+
+        public String resumen() {
+            return id + " - " + nombreCompleto + " - " + telefono;
+        }
+    }
+
+    static class Paciente {
+        private long id;
+        private String nombre;
+        private String especie;
+        private String raza;
+        private int edadMeses;
+        private double pesoKg;
+
+        public Paciente(long id, String nombre, String especie, String raza, int edadMeses, double pesoKg) {
+            this.id = id;
+            this.nombre = nombre;
+            this.especie = especie;
+            this.raza = raza;
+            this.edadMeses = edadMeses;
+            this.pesoKg = pesoKg;
+        }
+
+        public Paciente(long id, String nombre, String especie) {
+            this(id, nombre, especie, "mestizo", 1, 1.0);
+        }
+
+        public boolean esCachorro() {
+            return edadMeses <= 12;
+        }
+
+        public String resumen() {
+            return id + " - " + nombre + " - " + especie + " - " + edadMeses + " meses";
+        }
+
+        public int getEdadMeses() { return edadMeses; }
+        public String getEspecie() { return especie; }
+        public double getPesoKg() { return pesoKg; }
+    }
+
+    enum EstadoCita {
+        PENDIENTE, CANCELADA, ATENDIDA
+    }
+
+    static class Cita {
+        private int id;
+        private Dueno dueno;
+        private LocalDateTime fecha;
+        private EstadoCita estado;
+        private String motivoCancelacion;
+
+        public Cita(int id, Dueno dueno, LocalDateTime fecha) {
+            this.id = id;
+            this.dueno = dueno;
+            this.fecha = fecha;
+            this.estado = EstadoCita.PENDIENTE;
+        }
+
+        public void reagendar() {
+            if (estado == EstadoCita.PENDIENTE) {
+                fecha = fecha.plusDays(1);
+            }
+        }
+
+        public void cancelar(String motivo) {
+            estado = EstadoCita.CANCELADA;
+            motivoCancelacion = motivo;
+        }
+
+        public void marcarAtendida() {
+            if (estado == EstadoCita.PENDIENTE) {
+                estado = EstadoCita.ATENDIDA;
+            }
+        }
+
+        public String resumen() {
+            return "Cita " + id + " - " + dueno.resumen() + " - " + fecha + " - " + estado;
+        }
+    }
+
+    // -------------------- Main --------------------
+
+    public static void main(String[] args) {
+        Dueno[] duenos = new Dueno[500];
+        Paciente[] pacientes = new Paciente[1000];
+        Cita[] citas = new Cita[40];
+
+        // Generar dueños
+        for (int i = 0; i < 500; i++) {
+            duenos[i] = new Dueno(i + 1, "Dueño " + (i + 1), "502-" + (10000000 + i));
+        }
+
+        // Generar pacientes
+        for (int i = 0; i < 1000; i++) {
+            String especie = (i % 2 == 0) ? "perro" : "gato";
+            int edadMeses = (i % 120) + 1;
+            double pesoKg = 1.0 + (i % 30);
+            pacientes[i] = new Paciente(i + 1, "Mascota " + (i + 1), especie, "mestizo", edadMeses, pesoKg);
+        }
+
+        // Mostrar algunos ejemplos
+        System.out.println("Ejemplos de dueños:");
+        for (int i = 0; i < 3; i++) {
+            System.out.println(duenos[i].resumen());
+        }
+
+        System.out.println("\nEjemplos de pacientes:");
+        for (int i = 0; i < 6; i++) {
+            System.out.println(pacientes[i].resumen());
+        }
+
+        // Reportes
+        int cachorros = 0, perros = 0, gatos = 0;
+        double pesoPerros = 0, pesoGatos = 0;
+        int countPerros = 0, countGatos = 0;
+
+        Paciente[] top5 = new Paciente[5];
+
+        for (Paciente p : pacientes) {
+            if (p.esCachorro()) cachorros++;
+            if (p.getEspecie().equals("perro")) {
+                perros++;
+                pesoPerros += p.getPesoKg();
+                countPerros++;
+            } else {
+                gatos++;
+                pesoGatos += p.getPesoKg();
+                countGatos++;
+            }
+
+            for (int i = 0; i < 5; i++) {
+                if (top5[i] == null || p.getEdadMeses() > top5[i].getEdadMeses()) {
+                    for (int j = 4; j > i; j--) top5[j] = top5[j - 1];
+                    top5[i] = p;
+                    break;
+                }
+            }
+        }
+
+        System.out.println("\nReporte:");
+        System.out.println("Cachorros: " + cachorros);
+        System.out.println("Perros: " + perros + ", Gatos: " + gatos);
+        System.out.println("Peso promedio perro: " + (pesoPerros / countPerros));
+        System.out.println("Peso promedio gato: " + (pesoGatos / countGatos));
+
+        System.out.println("\nTop 5 longevas:");
+        for (Paciente p : top5) {
+            System.out.println(p.resumen());
+        }
+
+        // Generar citas
+        for (int i = 0; i < 40; i++) {
+            LocalDateTime fecha = LocalDateTime.now().plusDays(1).withHour(10 + (i % 2));
+            citas[i] = new Cita(i + 1, duenos[i / 2], fecha);
+
+            if ((i + 1) % 2 == 0) citas[i].reagendar();
+            else if ((i + 1) % 3 == 0) citas[i].cancelar("no puede asistir");
+            else citas[i].marcarAtendida();
+        }
+
+        System.out.println("\nResumen de citas:");
+        for (Cita c : citas) {
+            System.out.println(c.resumen());
+        }
+    }
+}
