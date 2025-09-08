@@ -82,7 +82,7 @@ public class Veterinaria {
 
         public void reagendar() {
             if (estado == EstadoCita.PENDIENTE) {
-                fecha = fecha.plusDays(1);
+                fecha = fecha.plusDays(1);   //el plus day para modificar la fecha para reagendar
             }
         }
 
@@ -128,7 +128,7 @@ public class Veterinaria {
             System.out.println(duenos[i].resumen());
         }
 
-        System.out.println("\nEjemplos de pacientes:");
+        System.out.println("Ejemplos de pacientes:");
         for (int i = 0; i < 6; i++) {
             System.out.println(pacientes[i].resumen());
         }
@@ -161,13 +161,13 @@ public class Veterinaria {
             }
         }
 
-        System.out.println("\nReporte:");
+        System.out.println("Reporte:");
         System.out.println("Cachorros: " + cachorros);
         System.out.println("Perros: " + perros + ", Gatos: " + gatos);
         System.out.println("Peso promedio perro: " + (pesoPerros / countPerros));
         System.out.println("Peso promedio gato: " + (pesoGatos / countGatos));
 
-        System.out.println("\nTop 5 longevas:");
+        System.out.println("Top 5 longevas:");
         for (Paciente p : top5) {
             System.out.println(p.resumen());
         }
@@ -182,7 +182,7 @@ public class Veterinaria {
             else citas[i].marcarAtendida();
         }
 
-        System.out.println("\nResumen de citas:");
+        System.out.println("Resumen de citas:");
         for (Cita c : citas) {
             System.out.println(c.resumen());
         }
