@@ -2,7 +2,7 @@ import java.time.LocalDateTime;
 
 public class Veterinaria {
 
-    // -------------------- Clases --------------------
+    //  Clases 
 
     static class Dueno {
         private long id;
@@ -102,19 +102,19 @@ public class Veterinaria {
         }
     }
 
-    // -------------------- Main --------------------
+    //  Main
 
     public static void main(String[] args) {
         Dueno[] duenos = new Dueno[500];
         Paciente[] pacientes = new Paciente[1000];
         Cita[] citas = new Cita[40];
 
-        // Generar dueños
+        // Generando a los dueños
         for (int i = 0; i < 500; i++) {
             duenos[i] = new Dueno(i + 1, "Dueño " + (i + 1), "502-" + (10000000 + i));
         }
 
-        // Generar pacientes
+        // Generando a los pacientes
         for (int i = 0; i < 1000; i++) {
             String especie = (i % 2 == 0) ? "perro" : "gato";
             int edadMeses = (i % 120) + 1;
@@ -122,7 +122,7 @@ public class Veterinaria {
             pacientes[i] = new Paciente(i + 1, "Mascota " + (i + 1), especie, "mestizo", edadMeses, pesoKg);
         }
 
-        // Mostrar algunos ejemplos
+        // Mostrando algunos ejemplos
         System.out.println("Ejemplos de dueños:");
         for (int i = 0; i < 3; i++) {
             System.out.println(duenos[i].resumen());
@@ -133,7 +133,7 @@ public class Veterinaria {
             System.out.println(pacientes[i].resumen());
         }
 
-        // Reportes
+        // Haciendo algunos Reportes
         int cachorros = 0, perros = 0, gatos = 0;
         double pesoPerros = 0, pesoGatos = 0;
         int countPerros = 0, countGatos = 0;
@@ -172,7 +172,7 @@ public class Veterinaria {
             System.out.println(p.resumen());
         }
 
-        // Generar citas
+        // Generando las citas
         for (int i = 0; i < 40; i++) {
             LocalDateTime fecha = LocalDateTime.now().plusDays(1).withHour(10 + (i % 2));
             citas[i] = new Cita(i + 1, duenos[i / 2], fecha);
