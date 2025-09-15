@@ -1,0 +1,110 @@
+public class ClinicaMain {
+
+    // Clase Cliente
+    static class Cliente {
+        private String nombre;
+        private String cedula;
+
+        public Cliente(String nombre, String cedula) {
+            this.nombre = nombre;
+            this.cedula = cedula;
+        }
+
+        public String getNombre() {
+            return nombre;
+        }
+    }
+
+    // Clase abstracta para atencion
+    static abstract class Atencion {
+        protected Cliente cliente;
+        protected String tipo;
+
+        public Atencion(Cliente cliente, String tipo) {
+            this.cliente = cliente;
+            this.tipo = tipo;
+        }
+
+        public abstract double calcularCosto();
+
+        public void imprimirResumen() {
+            System.out.println("Atención a: " + cliente.getNombre());
+            System.out.println("Tipo: " + tipo);
+            System.out.println("Costo: $" + calcularCosto());
+        }
+    }
+
+    // Subclase para la Consulta
+    static class Consulta extends Atencion {
+        public Consulta(Cliente cliente) {
+            super(cliente, "Consulta");
+        }
+
+     
+        public double calcularCosto() {
+            return 25.0;
+        }
+    }
+
+    // Subclase para la Emergencia
+    static class Emergencia extends Atencion {
+        public Emergencia(Cliente cliente) {
+            super(cliente, "Emergencia");
+        }
+
+        
+        public double calcularCosto() {
+            return 50.0;
+        }
+    }
+
+    // Clase para Cita
+    static class Cita {
+        private Atencion atencion;
+        private String fecha;
+        private boolean confirmada;
+
+        public Cita(Atencion atencion, String fecha) {
+            this.atencion = atencion;
+            this.fecha = fecha;
+            this.confirmada = false;
+        }
+
+        public void confirmar() {
+            confirmada = true;
+            System.out.println("Cita confirmada para " + fecha);
+        }
+
+        public void mostrarResumen() {
+            atencion.imprimirResumen();
+            System.out.println("Fecha: " + fecha + " | Confirmada: " + confirmada);
+        }
+    }
+
+    // Clase para la IA
+    static class IA {
+        public void saludar() {
+            System.out.println("Hola, soy la IA XXX");
+        }
+    }
+
+    // Metodo Main
+    public static void main(String[] args) {
+        // Creacion de cliente
+        Cliente cliente = new Cliente("Juan Pérez", "12345678");
+
+        // Creacion de atención (puedo cambiarlo por new Emergencia(cliente) si el usuario lo desea)
+        Atencion atencion = new Consulta(cliente);
+
+        // Creacion de cita
+        Cita cita = new Cita(atencion, "2025-09-15");
+
+        // Confirmar la cita y mostrar el resumen
+        cita.confirmar();
+        cita.mostrarResumen();
+
+        // Llamar a la asistente IA
+        IA asistente = new IA();
+        asistente.saludar();
+    }
+}
